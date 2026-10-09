@@ -1,5 +1,7 @@
 
 #include <iostream>
+#include <limits>
+
 #include "student.h"
 #include "exam.h"
 #include "attendance.h"
@@ -21,9 +23,9 @@ int main()
 
     do
     {
-        cout << "\n=====================================\n";
-        cout << "     SMART STUDENT LIFE ASSISTANT\n";
-        cout << "=====================================\n";
+        cout << "\n========================================\n";
+        cout << "       SMART STUDENT LIFE ASSISTANT\n";
+        cout << "========================================\n";
         cout << "1. Student Profile\n";
         cout << "2. Task / Assignment Manager\n";
         cout << "3. Exam Planner\n";
@@ -44,9 +46,7 @@ int main()
 
         switch (choice)
         {
-            // ==========================================
-            // 1. STUDENT PROFILE
-            // ==========================================
+            // STUDENT PROFILE
             case 1:
             {
                 int studentChoice;
@@ -90,11 +90,11 @@ int main()
                             break;
 
                         case 3:
-                            cout << "\nReturning to Main Menu...\n";
+                            cout << "Returning to main menu...\n";
                             break;
 
                         default:
-                            cout << "\nInvalid choice.\n";
+                            cout << "Invalid choice.\n";
                     }
 
                 } while (studentChoice != 3);
@@ -102,14 +102,12 @@ int main()
                 break;
             }
 
-            // ==========================================
-            // 2. TASK / ASSIGNMENT MANAGER
-            // ==========================================
+            // TASK / ASSIGNMENT MANAGER
             case 2:
             {
                 if (currentRollNo == 0)
                 {
-                    cout << "\nPlease login first to use Task Manager.\n";
+                    cout << "Please login first to access Tasks.\n";
                     break;
                 }
 
@@ -117,9 +115,7 @@ int main()
 
                 do
                 {
-                    cout << "\n=====================================\n";
-                    cout << "          TASK MANAGER\n";
-                    cout << "=====================================\n";
+                    cout << "\n===== TASK MANAGER =====\n";
                     cout << "1. Add Task\n";
                     cout << "2. Display Tasks\n";
                     cout << "3. Back to Main Menu\n";
@@ -144,11 +140,11 @@ int main()
                             break;
 
                         case 3:
-                            cout << "\nReturning to Main Menu...\n";
+                            cout << "Returning to main menu...\n";
                             break;
 
                         default:
-                            cout << "\nInvalid choice.\n";
+                            cout << "Invalid choice.\n";
                     }
 
                 } while (taskChoice != 3);
@@ -156,17 +152,13 @@ int main()
                 break;
             }
 
-            // ==========================================
-            // 3. EXAM PLANNER
-            // ==========================================
+            // EXAM PLANNER
             case 3:
                 exam.input();
                 exam.display();
                 break;
 
-            // ==========================================
-            // 4. ATTENDANCE TRACKER
-            // ==========================================
+            // ATTENDANCE TRACKER
             case 4:
                 if (currentRollNo == 0)
                 {
@@ -176,37 +168,40 @@ int main()
 
                 attendanceMenu();
                 break;
+            }
 
-            // ==========================================
-            // 5. LIBRARY MANAGER
-            // ==========================================
+            // LIBRARY MANAGER
             case 5:
-                cout << "\nLibrary Manager selected.\n";
-                break;
+            {
+                if (currentRollNo == 0)
+                {
+                    cout << "Please login first to access the Library.\n";
+                }
+                else
+                {
+                    libraryMenu(currentRollNo);
+                }
 
-            // ==========================================
-            // 6. COLLEGE EVENTS
-            // ==========================================
+                break;
+            }
+
+            // COLLEGE EVENTS
             case 6:
-                cout << "\nCollege Events selected.\n";
+                cout << "College Events module is not connected yet.\n";
                 break;
 
-            // ==========================================
-            // 7. PLACEMENT OPPORTUNITIES
-            // ==========================================
+            // PLACEMENT OPPORTUNITIES
             case 7:
-                cout << "\nPlacement Opportunities selected.\n";
+                cout << "Placement module is not connected yet.\n";
                 break;
 
-            // ==========================================
-            // 8. EXIT
-            // ==========================================
+            // EXIT
             case 8:
                 cout << "\nThank you for using Smart Student Life Assistant!\n";
                 break;
 
             default:
-                cout << "\nInvalid choice. Please try again.\n";
+                cout << "Invalid choice. Please try again.\n";
         }
 
     } while (choice != 8);
