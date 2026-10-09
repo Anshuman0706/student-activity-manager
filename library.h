@@ -1,6 +1,6 @@
-#ifndef EVENT_H
-#define EVENT_H
+#ifndef LIBRARY_H
+#define LIBRARY_H
 
-void eventMenu(int currentRollNo);
+void libraryMenu(int currentRollNo);
 
 #endif
