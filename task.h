@@ -5,13 +5,17 @@ typedef struct
 {
     int id;
     char title[100];
-    int daysLeft;
+
+    int day;
+    int month;
+    int year;
+
     int priority;
 } Task;
 
-void addTask();
-void displayTasks();
-void saveTasks();
-void loadTasks();
+void addTask(int rollNo);
+void displayTasks(int rollNo);
+void saveTasks(int rollNo);
+void loadTasks(int rollNo);
 
 #endif
