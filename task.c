@@ -1,53 +1,66 @@
 #include <stdio.h>
+#include <time.h>
 #include "task.h"
 
 Task tasks[100];
 int taskCount = 0;
 
-/* Save all tasks into file */
-void saveTasks()
+/* Calculate days left automatically */
+int calculateDaysLeft(int day, int month, int year)
 {
-    FILE *file = fopen("data/tasks.txt", "w");
+    time_t currentTime = time(NULL);
 
-    if (file == NULL)
-    {
-        printf("\nError: Could not open tasks.txt\n");
-        return;
-    }
+    struct tm today = *localtime(&currentTime);
 
-    for (int i = 0; i < taskCount; i++)
-    {
-        fprintf(file, "%d|%s|%d|%d\n",
-                tasks[i].id,
-                tasks[i].title,
-                tasks[i].daysLeft,
-                tasks[i].priority);
-    }
+    today.tm_hour = 0;
+    today.tm_min = 0;
+    today.tm_sec = 0;
 
-    fclose(file);
+    struct tm dueDate = {0};
+
+    dueDate.tm_mday = day;
+    dueDate.tm_mon = month - 1;
+    dueDate.tm_year = year - 1900;
+
+    time_t todayTime = mktime(&today);
+    time_t dueTime = mktime(&dueDate);
+
+    double difference = difftime(dueTime, todayTime);
+
+    return (int)(difference / (60 * 60 * 24));
 }
 
-/* Load tasks from file */
-void loadTasks()
-{
-    FILE *file = fopen("data/tasks.txt", "r");
 
-    if (file == NULL)
-    {
-        return;
-    }
+/* Load tasks for particular student */
+void loadTasks(int rollNo)
+{
+    char filename[100];
+
+    sprintf(filename, "data/tasks_%d.txt", rollNo);
+
+    FILE *file = fopen(filename, "r");
 
     taskCount = 0;
 
+    if (file == NULL)
+    {
+        return;
+    }
+
     while (taskCount < 100)
     {
-        int result = fscanf(file, "%d|%99[^|]|%d|%d\n",
-                            &tasks[taskCount].id,
-                            tasks[taskCount].title,
-                            &tasks[taskCount].daysLeft,
-                            &tasks[taskCount].priority);
+        int result = fscanf(
+            file,
+            "%d|%99[^|]|%d|%d|%d|%d\n",
+            &tasks[taskCount].id,
+            tasks[taskCount].title,
+            &tasks[taskCount].day,
+            &tasks[taskCount].month,
+            &tasks[taskCount].year,
+            &tasks[taskCount].priority
+        );
 
-        if (result != 4)
+        if (result != 6)
         {
             break;
         }
@@ -58,8 +71,42 @@ void loadTasks()
     fclose(file);
 }
 
-/* Add a new task */
-void addTask()
+
+/* Save tasks for particular student */
+void saveTasks(int rollNo)
+{
+    char filename[100];
+
+    sprintf(filename, "data/tasks_%d.txt", rollNo);
+
+    FILE *file = fopen(filename, "w");
+
+    if (file == NULL)
+    {
+        printf("\nError: Could not save tasks.\n");
+        return;
+    }
+
+    for (int i = 0; i < taskCount; i++)
+    {
+        fprintf(
+            file,
+            "%d|%s|%d|%d|%d|%d\n",
+            tasks[i].id,
+            tasks[i].title,
+            tasks[i].day,
+            tasks[i].month,
+            tasks[i].year,
+            tasks[i].priority
+        );
+    }
+
+    fclose(file);
+}
+
+
+/* Add task */
+void addTask(int rollNo)
 {
     Task newTask;
 
@@ -71,54 +118,52 @@ void addTask()
 
     newTask.id = taskCount + 1;
 
+    printf("\n========== ADD TASK ==========\n");
+
     printf("\nEnter Task Title: ");
     scanf(" %[^\n]", newTask.title);
 
-    printf("Enter Days Left: ");
-    scanf("%d", &newTask.daysLeft);
+    printf("Enter Due Date (DD MM YYYY): ");
+    scanf(
+        "%d %d %d",
+        &newTask.day,
+        &newTask.month,
+        &newTask.year
+    );
 
-    /* Calculate priority */
-    if (newTask.daysLeft <= 1)
+    int daysLeft = calculateDaysLeft(
+        newTask.day,
+        newTask.month,
+        newTask.year
+    );
+
+    if (daysLeft <= 1)
     {
-        newTask.priority = 3;      /* HIGH */
+        newTask.priority = 3;
     }
-    else if (newTask.daysLeft <= 5)
+    else if (daysLeft <= 5)
     {
-        newTask.priority = 2;      /* MEDIUM */
+        newTask.priority = 2;
     }
     else
     {
-        newTask.priority = 1;      /* LOW */
+        newTask.priority = 1;
     }
 
     tasks[taskCount] = newTask;
     taskCount++;
 
-    /* Arrange tasks according to priority */
-    for (int i = taskCount - 1; i > 0; i--)
-    {
-        if (tasks[i].priority > tasks[i - 1].priority)
-        {
-            Task temp = tasks[i];
+    saveTasks(rollNo);
 
-            tasks[i] = tasks[i - 1];
-
-            tasks[i - 1] = temp;
-        }
-        else
-        {
-            break;
-        }
-    }
-
-    saveTasks();
-
-    printf("\nTask added and saved successfully!\n");
+    printf("\nTask added successfully!\n");
 }
 
+
 /* Display tasks */
-void displayTasks()
+void displayTasks(int rollNo)
 {
+    loadTasks(rollNo);
+
     if (taskCount == 0)
     {
         printf("\nNo tasks available.\n");
@@ -131,17 +176,31 @@ void displayTasks()
 
     for (int i = 0; i < taskCount; i++)
     {
+        int daysLeft = calculateDaysLeft(
+            tasks[i].day,
+            tasks[i].month,
+            tasks[i].year
+        );
+
         printf("\nTask ID   : %d", tasks[i].id);
         printf("\nTitle     : %s", tasks[i].title);
-        printf("\nDays Left : %d", tasks[i].daysLeft);
+
+        printf(
+            "\nDue Date  : %02d/%02d/%04d",
+            tasks[i].day,
+            tasks[i].month,
+            tasks[i].year
+        );
+
+        printf("\nDays Left : %d", daysLeft);
 
         printf("\nPriority  : ");
 
-        if (tasks[i].priority == 3)
+        if (daysLeft <= 1)
         {
             printf("HIGH");
         }
-        else if (tasks[i].priority == 2)
+        else if (daysLeft <= 5)
         {
             printf("MEDIUM");
         }
