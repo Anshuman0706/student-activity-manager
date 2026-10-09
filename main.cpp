@@ -6,6 +6,7 @@
 #include "exam.h"
 #include "attendance.h"
 #include "library.h"
+#include "event.h"
 
 using namespace std;
 
@@ -45,6 +46,8 @@ int main()
             continue;
         }
 
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
         switch (choice)
         {
             // STUDENT PROFILE
@@ -67,8 +70,13 @@ int main()
                         cin.ignore(
                             numeric_limits<streamsize>::max(), '\n'
                         );
+                        studentChoice = 0;
                         continue;
                     }
+
+                    cin.ignore(
+                        numeric_limits<streamsize>::max(), '\n'
+                    );
 
                     switch (studentChoice)
                     {
@@ -86,6 +94,10 @@ int main()
                                      << currentRollNo << "\n";
 
                                 studentChoice = 3;
+                            }
+                            else
+                            {
+                                cout << "Login failed. Please try again.\n";
                             }
                             break;
 
@@ -128,8 +140,13 @@ int main()
                         cin.ignore(
                             numeric_limits<streamsize>::max(), '\n'
                         );
+                        taskChoice = 0;
                         continue;
                     }
+
+                    cin.ignore(
+                        numeric_limits<streamsize>::max(), '\n'
+                    );
 
                     switch (taskChoice)
                     {
@@ -192,8 +209,18 @@ int main()
 
             // COLLEGE EVENTS
             case 6:
-                cout << "College Events module is not connected yet.\n";
+            {
+                if (currentRollNo == 0)
+                {
+                    cout << "Please login first to access College Events.\n";
+                }
+                else
+                {
+                    eventMenu(currentRollNo);
+                }
+
                 break;
+            }
 
             // PLACEMENT OPPORTUNITIES
             case 7:
