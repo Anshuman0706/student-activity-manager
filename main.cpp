@@ -181,7 +181,7 @@ int main()
                 break;
 
             // ATTENDANCE TRACKER
-            case 4:
+            case 4:{
                 if (currentRollNo == 0)
                 {
                     cout << "\nPlease login first to use Attendance Tracker.\n";
