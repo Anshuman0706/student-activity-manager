@@ -5,7 +5,6 @@
 #include "student.h"
 #include "exam.h"
 #include "attendance.h"
-#include "library.h"
 
 using namespace std;
 
@@ -35,13 +34,13 @@ int main()
         cout << "6. College Events\n";
         cout << "7. Placement Opportunities\n";
         cout << "8. Exit\n";
-        cout << "Enter your choice: ";
+        cout << "\nEnter your choice: ";
 
         if (!(cin >> choice))
         {
-            cout << "Please enter a valid number.\n";
+            cout << "\nPlease enter a valid number.\n";
             cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.ignore(10000, '\n');
             continue;
         }
 
@@ -54,19 +53,19 @@ int main()
 
                 do
                 {
-                    cout << "\n===== STUDENT PROFILE =====\n";
+                    cout << "\n=====================================\n";
+                    cout << "          STUDENT PROFILE\n";
+                    cout << "=====================================\n";
                     cout << "1. New User\n";
-                    cout << "2. Existing User Login\n";
-                    cout << "3. Back to Main Menu\n";
-                    cout << "Enter choice: ";
+                    cout << "2. Existing User\n";
+                    cout << "3. Back\n";
+                    cout << "\nEnter your choice: ";
 
                     if (!(cin >> studentChoice))
                     {
                         cout << "Please enter a valid number.\n";
                         cin.clear();
-                        cin.ignore(
-                            numeric_limits<streamsize>::max(), '\n'
-                        );
+                        cin.ignore(10000, '\n');
                         continue;
                     }
 
@@ -81,9 +80,10 @@ int main()
                             {
                                 currentRollNo = student.getRollNo();
 
-                                cout << "\nLogin successful!\n";
-                                cout << "Roll Number: "
-                                     << currentRollNo << "\n";
+                                cout << "\nLogin Successful!";
+                                cout << "\nLogged-in Roll Number: "
+                                     << currentRollNo;
+                                cout << "\nReturning to Main Menu...\n";
 
                                 studentChoice = 3;
                             }
@@ -119,15 +119,13 @@ int main()
                     cout << "1. Add Task\n";
                     cout << "2. Display Tasks\n";
                     cout << "3. Back to Main Menu\n";
-                    cout << "Enter choice: ";
+                    cout << "\nEnter your choice: ";
 
                     if (!(cin >> taskChoice))
                     {
                         cout << "Please enter a valid number.\n";
                         cin.clear();
-                        cin.ignore(
-                            numeric_limits<streamsize>::max(), '\n'
-                        );
+                        cin.ignore(10000, '\n');
                         continue;
                     }
 
@@ -162,16 +160,13 @@ int main()
 
             // ATTENDANCE TRACKER
             case 4:
-            {
                 if (currentRollNo == 0)
                 {
-                    cout << "Please login first to access Attendance.\n";
-                }
-                else
-                {
-                    attendanceMenu();
+                    cout << "\nPlease login first to use Attendance Tracker.\n";
+                    break;
                 }
 
+                attendanceMenu();
                 break;
             }
 
