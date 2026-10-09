@@ -1,6 +1,11 @@
+
 #include <iostream>
+#include <limits>
+
 #include "student.h"
 #include "exam.h"
+#include "attendance.h"
+#include "library.h"
 
 using namespace std;
 
@@ -19,9 +24,9 @@ int main()
 
     do
     {
-        cout << "\n=====================================\n";
-        cout << "     SMART STUDENT LIFE ASSISTANT\n";
-        cout << "=====================================\n";
+        cout << "\n========================================\n";
+        cout << "       SMART STUDENT LIFE ASSISTANT\n";
+        cout << "========================================\n";
         cout << "1. Student Profile\n";
         cout << "2. Task / Assignment Manager\n";
         cout << "3. Exam Planner\n";
@@ -30,66 +35,66 @@ int main()
         cout << "6. College Events\n";
         cout << "7. Placement Opportunities\n";
         cout << "8. Exit\n";
+        cout << "Enter your choice: ";
 
-        cout << "\nEnter your choice: ";
-        cin >> choice;
+        if (!(cin >> choice))
+        {
+            cout << "Please enter a valid number.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
 
         switch (choice)
         {
-            // ==========================================
-            // 1. STUDENT PROFILE
-            // ==========================================
+            // STUDENT PROFILE
             case 1:
             {
                 int studentChoice;
 
                 do
                 {
-                    cout << "\n=====================================\n";
-                    cout << "          STUDENT PROFILE\n";
-                    cout << "=====================================\n";
-                    cout << "\n1. New User\n";
-                    cout << "2. Existing User\n";
-                    cout << "3. Back\n";
+                    cout << "\n===== STUDENT PROFILE =====\n";
+                    cout << "1. New User\n";
+                    cout << "2. Existing User Login\n";
+                    cout << "3. Back to Main Menu\n";
+                    cout << "Enter choice: ";
 
-                    cout << "\nEnter your choice: ";
-                    cin >> studentChoice;
+                    if (!(cin >> studentChoice))
+                    {
+                        cout << "Please enter a valid number.\n";
+                        cin.clear();
+                        cin.ignore(
+                            numeric_limits<streamsize>::max(), '\n'
+                        );
+                        continue;
+                    }
 
                     switch (studentChoice)
                     {
-                        // ------------------------------
-                        // NEW USER
-                        // ------------------------------
                         case 1:
                             student.newUser();
                             break;
 
-                        // ------------------------------
-                        // EXISTING USER
-                        // ------------------------------
                         case 2:
                             if (student.login())
                             {
                                 currentRollNo = student.getRollNo();
 
-                                cout << "\nLogin Successful!";
-                                cout << "\nReturning to Main Menu...\n";
+                                cout << "\nLogin successful!\n";
+                                cout << "Roll Number: "
+                                     << currentRollNo << "\n";
 
-                                // Automatically leave
-                                // Student Profile menu
                                 studentChoice = 3;
                             }
                             break;
 
-                        // ------------------------------
-                        // BACK
-                        // ------------------------------
                         case 3:
-                            cout << "\nReturning to Main Menu...\n";
+                            cout << "Returning to main menu...\n";
                             break;
 
                         default:
-                            cout << "\nInvalid choice.\n";
+                            cout << "Invalid choice.\n";
                     }
 
                 } while (studentChoice != 3);
@@ -97,15 +102,12 @@ int main()
                 break;
             }
 
-            // ==========================================
-            // 2. TASK / ASSIGNMENT MANAGER
-            // ==========================================
+            // TASK / ASSIGNMENT MANAGER
             case 2:
             {
-                // Student must login before using tasks
                 if (currentRollNo == 0)
                 {
-                    cout << "\nPlease login first to use Task Manager.\n";
+                    cout << "Please login first to access Tasks.\n";
                     break;
                 }
 
@@ -113,41 +115,38 @@ int main()
 
                 do
                 {
-                    cout << "\n=====================================\n";
-                    cout << "          TASK MANAGER\n";
-                    cout << "=====================================\n";
+                    cout << "\n===== TASK MANAGER =====\n";
                     cout << "1. Add Task\n";
                     cout << "2. Display Tasks\n";
                     cout << "3. Back to Main Menu\n";
+                    cout << "Enter choice: ";
 
-                    cout << "\nEnter your choice: ";
-                    cin >> taskChoice;
+                    if (!(cin >> taskChoice))
+                    {
+                        cout << "Please enter a valid number.\n";
+                        cin.clear();
+                        cin.ignore(
+                            numeric_limits<streamsize>::max(), '\n'
+                        );
+                        continue;
+                    }
 
                     switch (taskChoice)
                     {
-                        // ------------------------------
-                        // ADD TASK
-                        // ------------------------------
                         case 1:
                             addTask(currentRollNo);
                             break;
 
-                        // ------------------------------
-                        // DISPLAY TASKS
-                        // ------------------------------
                         case 2:
                             displayTasks(currentRollNo);
                             break;
 
-                        // ------------------------------
-                        // BACK
-                        // ------------------------------
                         case 3:
-                            cout << "\nReturning to Main Menu...\n";
+                            cout << "Returning to main menu...\n";
                             break;
 
                         default:
-                            cout << "\nInvalid choice.\n";
+                            cout << "Invalid choice.\n";
                     }
 
                 } while (taskChoice != 3);
@@ -155,51 +154,59 @@ int main()
                 break;
             }
 
-            // ==========================================
-            // 3. EXAM PLANNER
-            // ==========================================
+            // EXAM PLANNER
             case 3:
                 exam.input();
                 exam.display();
                 break;
 
-            // ==========================================
-            // 4. ATTENDANCE TRACKER
-            // ==========================================
+            // ATTENDANCE TRACKER
             case 4:
-                cout << "\nAttendance Tracker selected.\n";
-                break;
+            {
+                if (currentRollNo == 0)
+                {
+                    cout << "Please login first to access Attendance.\n";
+                }
+                else
+                {
+                    attendanceMenu();
+                }
 
-            // ==========================================
-            // 5. LIBRARY MANAGER
-            // ==========================================
+                break;
+            }
+
+            // LIBRARY MANAGER
             case 5:
-                cout << "\nLibrary Manager selected.\n";
-                break;
+            {
+                if (currentRollNo == 0)
+                {
+                    cout << "Please login first to access the Library.\n";
+                }
+                else
+                {
+                    libraryMenu(currentRollNo);
+                }
 
-            // ==========================================
-            // 6. COLLEGE EVENTS
-            // ==========================================
+                break;
+            }
+
+            // COLLEGE EVENTS
             case 6:
-                cout << "\nCollege Events selected.\n";
+                cout << "College Events module is not connected yet.\n";
                 break;
 
-            // ==========================================
-            // 7. PLACEMENT OPPORTUNITIES
-            // ==========================================
+            // PLACEMENT OPPORTUNITIES
             case 7:
-                cout << "\nPlacement Opportunities selected.\n";
+                cout << "Placement module is not connected yet.\n";
                 break;
 
-            // ==========================================
-            // 8. EXIT
-            // ==========================================
+            // EXIT
             case 8:
                 cout << "\nThank you for using Smart Student Life Assistant!\n";
                 break;
 
             default:
-                cout << "\nInvalid choice. Please try again.\n";
+                cout << "Invalid choice. Please try again.\n";
         }
 
     } while (choice != 8);
