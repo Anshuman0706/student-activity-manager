@@ -1,6 +1,8 @@
+
 #include <iostream>
 #include "student.h"
 #include "exam.h"
+#include "attendance.h"
 
 using namespace std;
 
@@ -30,9 +32,15 @@ int main()
         cout << "6. College Events\n";
         cout << "7. Placement Opportunities\n";
         cout << "8. Exit\n";
-
         cout << "\nEnter your choice: ";
-        cin >> choice;
+
+        if (!(cin >> choice))
+        {
+            cout << "\nPlease enter a valid number.\n";
+            cin.clear();
+            cin.ignore(10000, '\n');
+            continue;
+        }
 
         switch (choice)
         {
@@ -48,42 +56,39 @@ int main()
                     cout << "\n=====================================\n";
                     cout << "          STUDENT PROFILE\n";
                     cout << "=====================================\n";
-                    cout << "\n1. New User\n";
+                    cout << "1. New User\n";
                     cout << "2. Existing User\n";
                     cout << "3. Back\n";
-
                     cout << "\nEnter your choice: ";
-                    cin >> studentChoice;
+
+                    if (!(cin >> studentChoice))
+                    {
+                        cout << "Please enter a valid number.\n";
+                        cin.clear();
+                        cin.ignore(10000, '\n');
+                        continue;
+                    }
 
                     switch (studentChoice)
                     {
-                        // ------------------------------
-                        // NEW USER
-                        // ------------------------------
                         case 1:
                             student.newUser();
                             break;
 
-                        // ------------------------------
-                        // EXISTING USER
-                        // ------------------------------
                         case 2:
                             if (student.login())
                             {
                                 currentRollNo = student.getRollNo();
 
                                 cout << "\nLogin Successful!";
+                                cout << "\nLogged-in Roll Number: "
+                                     << currentRollNo;
                                 cout << "\nReturning to Main Menu...\n";
 
-                                // Automatically leave
-                                // Student Profile menu
                                 studentChoice = 3;
                             }
                             break;
 
-                        // ------------------------------
-                        // BACK
-                        // ------------------------------
                         case 3:
                             cout << "\nReturning to Main Menu...\n";
                             break;
@@ -102,7 +107,6 @@ int main()
             // ==========================================
             case 2:
             {
-                // Student must login before using tasks
                 if (currentRollNo == 0)
                 {
                     cout << "\nPlease login first to use Task Manager.\n";
@@ -119,29 +123,26 @@ int main()
                     cout << "1. Add Task\n";
                     cout << "2. Display Tasks\n";
                     cout << "3. Back to Main Menu\n";
-
                     cout << "\nEnter your choice: ";
-                    cin >> taskChoice;
+
+                    if (!(cin >> taskChoice))
+                    {
+                        cout << "Please enter a valid number.\n";
+                        cin.clear();
+                        cin.ignore(10000, '\n');
+                        continue;
+                    }
 
                     switch (taskChoice)
                     {
-                        // ------------------------------
-                        // ADD TASK
-                        // ------------------------------
                         case 1:
                             addTask(currentRollNo);
                             break;
 
-                        // ------------------------------
-                        // DISPLAY TASKS
-                        // ------------------------------
                         case 2:
                             displayTasks(currentRollNo);
                             break;
 
-                        // ------------------------------
-                        // BACK
-                        // ------------------------------
                         case 3:
                             cout << "\nReturning to Main Menu...\n";
                             break;
@@ -167,7 +168,13 @@ int main()
             // 4. ATTENDANCE TRACKER
             // ==========================================
             case 4:
-                cout << "\nAttendance Tracker selected.\n";
+                if (currentRollNo == 0)
+                {
+                    cout << "\nPlease login first to use Attendance Tracker.\n";
+                    break;
+                }
+
+                attendanceMenu();
                 break;
 
             // ==========================================
