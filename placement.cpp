@@ -37,7 +37,7 @@ string getCurrentDate()
     return string(date);
 }
 
-bool validField(string value)
+bool validPlacementField(string value)
 {
     return !value.empty() &&
            value.find('|') == string::npos &&
@@ -173,6 +173,7 @@ void addPlacement()
 
     int maxId = 0;
 
+    
     for (int i = 0; i < placementCount; i++)
     {
         if (placements[i].id > maxId)
@@ -197,11 +198,11 @@ void addPlacement()
     cout << "Enter package/details: ";
     getline(cin, p.packageDetails);
 
-    if (!validField(p.company) ||
-        !validField(p.role) ||
-        !validField(p.eligibility) ||
-        !validField(p.deadline) ||
-        !validField(p.packageDetails))
+    if (!validPlacementField(p.company) ||
+        !validPlacementField(p.role) ||
+        !validPlacementField(p.eligibility) ||
+        !validPlacementField(p.deadline) ||
+        !validPlacementField(p.packageDetails))
     {
         cout << "Fields cannot be empty or contain '|'.\n";
         return;

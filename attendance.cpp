@@ -19,14 +19,13 @@ struct Attendance
 Attendance records[500];
 int countRecords = 0;
 
-const char *FILE_NAME = "data/attendance.txt";
-
+const char *ATTENDANCE_FILE_NAME = "data/attendance.txt";
 // Load attendance records from file
 void loadAttendance()
 {
     countRecords = 0;
 
-    ifstream file(FILE_NAME);
+    ifstream file(ATTENDANCE_FILE_NAME);
     string line;
 
     while (getline(file, line) && countRecords < 500)
@@ -64,7 +63,7 @@ void loadAttendance()
 // Save all attendance records
 void saveAttendance()
 {
-    ofstream file(FILE_NAME);
+    ofstream file(ATTENDANCE_FILE_NAME);
 
     if (!file)
     {

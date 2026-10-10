@@ -7,6 +7,7 @@
 #include "attendance.h"
 #include "library.h"
 #include "event.h"
+#include "placement.h"
 
 using namespace std;
 
@@ -36,7 +37,7 @@ int main()
         cout << "6. College Events\n";
         cout << "7. Placement Opportunities\n";
         cout << "8. Exit\n";
-        cout << "\nEnter your choice: ";
+        cout << "Enter your choice: ";
 
         if (!(cin >> choice))
         {
@@ -224,7 +225,14 @@ int main()
 
             // PLACEMENT OPPORTUNITIES
             case 7:
-                cout << "Placement module is not connected yet.\n";
+                if (currentRollNo == 0)
+                {
+                    cout << "Please login first to access Placement Opportunities.\n";
+                }
+                else
+                {
+                    placementMenu(currentRollNo);
+                }
                 break;
 
             // EXIT
