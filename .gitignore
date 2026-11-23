@@ -109,6 +109,11 @@ yarn-error.log*
 .pnpm-debug.log*
 .DS_Store
 
+
+
+
+.vscode/
+
 ==============================
 
 TypeScript
@@ -117,3 +122,6 @@ TypeScript
 
 *.tsbuildinfo
 next-env.d.ts
+
+# Nested project copy
+student-activity-manager/
