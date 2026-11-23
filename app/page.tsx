@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AppIcon as Icon, type IconName } from "@/app/components/app-icon";
 import { DarkModeToggle } from "@/app/components/dark-mode-toggle";
+import { HomeHeroIllustration } from "@/app/components/home-hero-illustration";
 
 const features: {
   name: string;
@@ -64,38 +65,6 @@ function Brand() {
   );
 }
 
-function AcademicIllustration() {
-  return (
-    <div
-      aria-hidden="true"
-      className="home-illustration relative flex min-h-[260px] items-center justify-center overflow-hidden rounded-[24px] bg-[radial-gradient(ellipse_at_55%_40%,#ffffff_0%,#f2f2f0_48%,#dededb_100%)] sm:min-h-[340px]"
-    >
-      <div className="home-illustration-dot absolute left-[14%] top-[20%] size-3 rounded-full bg-[#c5c5c2]" />
-      <div className="home-illustration-dot-muted absolute right-[17%] top-[17%] size-2 rounded-full bg-[#858585]" />
-      <div className="home-illustration-dot-muted absolute bottom-[17%] left-[20%] size-2 rounded-full bg-[#a1a1a1]" />
-      <div className="home-illustration-line absolute right-[17%] top-[30%] h-24 w-px rotate-[35deg] bg-gradient-to-b from-transparent via-[#b4b4b0] to-transparent" />
-      <div className="home-illustration-outline absolute bottom-[16%] right-[19%] size-10 rounded-full border border-[#c7c7c3]" />
-      <div className="home-illustration-outline-soft absolute bottom-[18%] left-[20%] h-20 w-20 rounded-full border border-white/90" />
-
-      <div className="relative mt-16 w-[min(72%,330px)]">
-        <div className="home-illustration-badge absolute -top-24 left-1/2 z-10 flex size-24 -translate-x-1/2 items-center justify-center rounded-full border border-white/70 bg-white/40 shadow-[0_18px_42px_rgba(0,0,0,0.08)] backdrop-blur-sm">
-          <Icon className="size-12 text-[#171717]" name="graduation" />
-        </div>
-        <div className="home-illustration-dark-layer relative h-5 -skew-x-12 rounded-sm bg-[#202020] shadow-[0_10px_20px_rgba(0,0,0,0.15)]" />
-        <div className="home-illustration-metal mx-auto h-4 w-[85%] -skew-x-12 bg-gradient-to-r from-[#d8d8d6] via-white to-[#bdbdb9]" />
-        <div className="home-illustration-light-layer mx-auto h-5 w-[92%] -skew-x-12 bg-[#fdfdfc] shadow-[0_12px_22px_rgba(0,0,0,0.08)]" />
-        <div className="home-illustration-metal mx-auto h-4 w-[78%] -skew-x-12 bg-gradient-to-r from-[#b9b9b5] via-[#f7f7f5] to-[#c8c8c4]" />
-        <div className="home-illustration-dark-layer mx-auto h-5 w-full -skew-x-12 bg-[#242424]" />
-        <div className="home-illustration-metal mx-auto h-4 w-[88%] -skew-x-12 bg-gradient-to-r from-white via-[#dededb] to-white" />
-        <div className="home-illustration-light-layer mx-auto h-6 w-[96%] -skew-x-12 rounded-b-sm bg-[#fdfdfc] shadow-[0_16px_24px_rgba(0,0,0,0.12)]" />
-      </div>
-      <span className="home-illustration-caption absolute bottom-4 left-4 rounded-full border border-white/80 bg-white/70 px-3 py-1.5 text-[9px] font-medium uppercase tracking-[0.12em] text-[#666] backdrop-blur">
-        Learn · Plan · Grow
-      </span>
-    </div>
-  );
-}
-
 export default function HomePage() {
   return (
     <main className="home-page min-h-screen bg-[#f5f5f3] px-4 py-4 text-[#171717] sm:px-6 sm:py-6">
@@ -132,7 +101,7 @@ export default function HomePage() {
 
         <section
           aria-labelledby="hero-heading"
-          className="mt-5 grid gap-4 rounded-[28px] border border-[#e5e5e5] bg-white p-4 sm:p-6 lg:grid-cols-[1fr_0.9fr] lg:items-center lg:p-8"
+          className="mt-5 grid gap-5 rounded-[28px] border border-[#e5e5e5] bg-white p-4 sm:p-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-8 lg:p-8"
           id="home"
         >
           <div className="py-5 sm:px-3">
@@ -175,7 +144,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <AcademicIllustration />
+          <HomeHeroIllustration />
         </section>
 
         <section

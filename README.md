@@ -1,5 +1,3 @@
-
-
 # SmartCampus — Smart Student Life Assistant
 
 A student life web app built with Next.js, TypeScript, Tailwind CSS, and Supabase.

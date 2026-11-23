@@ -39,7 +39,7 @@ async function RegisterContent() {
 
   return (
       <div className="auth-layout grid w-full overflow-hidden rounded-[28px] border shadow-[0_24px_80px_rgba(0,0,0,0.08)] lg:grid-cols-[0.9fr_1.1fr]">
-        <AuthBrandingPanel />
+        <AuthBrandingPanel variant="signup" />
 
         <section className="auth-form-area flex min-h-[620px] items-center justify-center px-4 py-8 sm:px-8 lg:px-10">
           <div className="w-full max-w-md">

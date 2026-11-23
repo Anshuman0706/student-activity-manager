@@ -138,9 +138,13 @@ function CampusIllustration() {
   );
 }
 
-export function AuthBrandingPanel() {
+export function AuthBrandingPanel({
+  variant = "signin",
+}: {
+  variant?: "signin" | "signup";
+}) {
   return (
-    <aside className="auth-branding-panel relative flex min-h-[400px] flex-col justify-between overflow-hidden px-6 py-6 sm:min-h-[460px] sm:px-8 sm:py-8 lg:min-h-[660px] lg:px-8 lg:py-9 xl:px-10">
+    <aside className={`auth-branding-panel auth-branding-panel--${variant} relative flex min-h-[400px] flex-col justify-between overflow-hidden px-6 py-6 sm:min-h-[460px] sm:px-8 sm:py-8 lg:min-h-[660px] lg:px-8 lg:py-9 xl:px-10`}>
       <div aria-hidden="true" className="auth-branding-orb auth-branding-orb-one" />
       <div aria-hidden="true" className="auth-branding-orb auth-branding-orb-two" />
 
@@ -158,7 +162,7 @@ export function AuthBrandingPanel() {
         </Link>
       </div>
 
-      <div aria-hidden="true" className="auth-campus-scene relative z-[2] my-2 min-h-[220px] max-h-[340px] flex-1 sm:my-3 lg:min-h-[260px]">
+      <div aria-hidden="true" className="auth-campus-scene relative z-[2] my-2 min-h-[220px] flex-1 sm:my-3 lg:min-h-[260px]">
         <CampusIllustration />
       </div>
 

@@ -21,9 +21,7 @@ function SubmitButton({ label }: { label: string }) {
 }
 
 function FormMessage({ state }: { state: AuthActionState }) {
-  if (!state.message) {
-    return null;
-  }
+  if (!state.message) return null;
 
   return (
     <p
@@ -111,8 +109,10 @@ export function AuthForm({
 }) {
   const [mode, setMode] = useState<"signin" | "signup">(initialMode);
   const [semesterError, setSemesterError] = useState("");
+
   const [signInState, signIn] = useActionState(signInAction, initialState);
   const [signUpState, signUp] = useActionState(signUpAction, initialState);
+
   const isSignUp = mode === "signup";
   const state = isSignUp ? signUpState : signInState;
 
@@ -149,6 +149,7 @@ export function AuthForm({
         >
           Sign in
         </button>
+
         <button
           aria-pressed={isSignUp}
           className={`auth-form-tab min-h-10 rounded-lg text-xs font-semibold transition ${
@@ -165,6 +166,7 @@ export function AuthForm({
         {isSignUp ? (
           <>
             <Field autoComplete="name" id="fullName" label="Full name" maxLength={100} />
+
             <Field
               autoComplete="tel"
               id="mobileNumber"
@@ -172,7 +174,9 @@ export function AuthForm({
               maxLength={20}
               type="tel"
             />
+
             <Field id="branch" label="Branch" maxLength={80} />
+
             <div>
               <Field
                 id="semester"
@@ -188,15 +192,35 @@ export function AuthForm({
                 }}
                 type="number"
               />
+
               {semesterError ? (
-                <p aria-live="polite" className="auth-validation-message mt-1.5 text-xs" role="status">
+                <p
+                  aria-live="polite"
+                  className="auth-validation-message mt-1.5 text-xs"
+                  role="status"
+                >
                   {semesterError}
                 </p>
               ) : null}
             </div>
+
+            <Field
+              autoComplete="email"
+              id="email"
+              label="Email"
+              type="email"
+            />
           </>
-        ) : null}
-        <Field autoComplete="email" id="email" label="Email" type="email" />
+        ) : (
+          <Field
+            autoComplete="username"
+            id="studentId"
+            label="Student ID"
+            name="studentId"
+            maxLength={50}
+          />
+        )}
+
         <Field
           autoComplete={isSignUp ? "new-password" : "current-password"}
           id="password"
@@ -204,14 +228,16 @@ export function AuthForm({
           minLength={isSignUp ? 8 : undefined}
           type="password"
         />
+
         <FormMessage state={state} />
-        <SubmitButton
-          label={isSignUp ? "Create account" : "Sign in"}
-        />
+
+        <SubmitButton label={isSignUp ? "Create account" : "Sign in"} />
       </form>
 
       <p className="auth-form-footnote mt-5 text-center text-[10px] leading-5">
-        Use an email you can access. Existing console accounts are not imported.
+        {isSignUp
+          ? "Use an email you can access to create your account."
+          : "Sign in using your university Student ID and password."}
       </p>
     </section>
   );

@@ -199,64 +199,6 @@ html:not([data-theme="dark"]) [class~="hover:bg-[#303030]"]:hover {
   background-color: #3b82f6 !important;
 }
 
-html:not([data-theme="dark"]) .home-page .home-illustration {
-  background: radial-gradient(
-    ellipse at 55% 40%,
-    #ffffff 0%,
-    #eef4fd 52%,
-    #dbe7f8 100%
-  );
-}
-
-html:not([data-theme="dark"]) .home-page .home-illustration-badge {
-  border-color: rgb(23 59 122 / 14%);
-  background-color: rgb(255 255 255 / 68%);
-  box-shadow: 0 18px 42px rgb(23 59 122 / 10%);
-}
-
-html:not([data-theme="dark"]) .home-page .home-illustration-badge svg {
-  color: #173b7a;
-}
-
-html:not([data-theme="dark"]) .home-page .home-illustration-dot {
-  background-color: #3b82f6;
-  opacity: 0.7;
-}
-
-html:not([data-theme="dark"]) .home-page .home-illustration-dot-muted {
-  background-color: #8ca9d1;
-}
-
-html:not([data-theme="dark"]) .home-page .home-illustration-line {
-  --tw-gradient-via: #9bb5dc;
-}
-
-html:not([data-theme="dark"]) .home-page .home-illustration-outline {
-  border-color: #9bb5dc;
-}
-
-html:not([data-theme="dark"]) .home-page .home-illustration-outline-soft {
-  border-color: rgb(255 255 255 / 90%);
-}
-
-html:not([data-theme="dark"]) .home-page .home-illustration-dark-layer {
-  background-color: #173b7a;
-}
-
-html:not([data-theme="dark"]) .home-page .home-illustration-light-layer {
-  background-color: #ffffff;
-}
-
-html:not([data-theme="dark"]) .home-page .home-illustration-metal {
-  background: linear-gradient(90deg, #b8c6dc, #ffffff, #a9bddb);
-}
-
-html:not([data-theme="dark"]) .home-page .home-illustration-caption {
-  border-color: rgb(23 59 122 / 16%);
-  background-color: rgb(255 255 255 / 82%);
-  color: #173b7a;
-}
-
 html[data-theme="dark"] [class*="bg-white"],
 html[data-theme="dark"] [class~="bg-[#ffffff]"],
 html[data-theme="dark"] [class~="bg-[#fdfdfc]"] {
@@ -285,35 +227,13 @@ html[data-theme="dark"] .home-page {
   );
 }
 
-html[data-theme="dark"] .home-page .home-illustration {
-  background: radial-gradient(
-    ellipse at 55% 40%,
-    #26354b 0%,
-    #1f2937 52%,
-    #111827 100%
-  );
+.home-hero-art-surface {
+  background: #ffffff;
+  transition: background-color 220ms ease;
 }
 
-html[data-theme="dark"] .home-page .home-illustration-badge {
-  border-color: rgb(148 180 231 / 32%);
-  background-color: rgb(31 41 55 / 72%);
-  box-shadow: 0 18px 42px rgb(0 0 0 / 30%);
-}
-
-html[data-theme="dark"] .home-page .home-illustration-badge svg {
-  color: #bfdbfe;
-}
-
-html[data-theme="dark"] .home-page .home-illustration-dark-layer {
-  background-color: #173b7a;
-}
-
-html[data-theme="dark"] .home-page .home-illustration-light-layer {
-  background-color: #34445b;
-}
-
-html[data-theme="dark"] .home-page .home-illustration-metal {
-  background: linear-gradient(90deg, #34445b, #64748b, #34445b);
+html[data-theme="dark"] .home-hero-art-surface {
+  background: #202938;
 }
 
 html[data-theme="dark"] [class~="text-[#171717]"],
@@ -702,6 +622,12 @@ html[data-theme="dark"] .radial-command-popover-icon {
   object-fit: contain;
   opacity: 0.92;
   pointer-events: none;
+}
+
+.auth-branding-panel--signup .auth-campus-art {
+  right: -8%;
+  width: 112%;
+  max-width: 820px;
 }
 
 .campus-hill {

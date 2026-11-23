@@ -16,27 +16,45 @@ function getText(formData: FormData, name: string) {
   return typeof value === "string" ? value.trim() : "";
 }
 
+// Student ID → internal Auth email
+function studentIdToEmail(studentId: string) {
+  return `${studentId.trim().toLowerCase()}@students.smartcampus.invalid`;
+}
+
 export async function signInAction(
   _previousState: AuthActionState,
   formData: FormData,
 ): Promise<AuthActionState> {
   if (!getSupabaseConfig()) {
-    return { message: "Supabase is not configured yet. Add the required environment variables." };
+    return { message: "Supabase configuration is missing." };
   }
 
-  const email = getText(formData, "email").toLowerCase();
+  const studentId = getText(formData, "studentId");
   const password = formData.get("password");
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || typeof password !== "string" || !password) {
-    return { message: "Enter a valid email address and password." };
+  if (
+    !/^[a-zA-Z0-9._-]{2,50}$/.test(studentId) ||
+    typeof password !== "string" ||
+    password.length === 0
+  ) {
+    return { message: "Enter a valid Student ID and password." };
   }
 
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
 
-  if (error) {
-    console.error("Student sign-in failed.", error);
-    return { message: "Sign-in failed. Check your email and password, then try again." };
+  const email = studentIdToEmail(studentId);
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error || !data.user) {
+    console.error("Student login error:", error?.message);
+
+    return {
+      message: "Invalid Student ID or password.",
+    };
   }
 
   revalidatePath("/", "layout");
@@ -48,7 +66,7 @@ export async function signUpAction(
   formData: FormData,
 ): Promise<AuthActionState> {
   if (!getSupabaseConfig()) {
-    return { message: "Supabase is not configured yet. Add the required environment variables." };
+    return { message: "Supabase configuration is missing." };
   }
 
   const fullName = getText(formData, "fullName");
@@ -68,23 +86,19 @@ export async function signUpAction(
   }
 
   if (!isValidMobileNumber(mobileNumber)) {
-    return { message: "Enter a valid mobile number with 7 to 15 digits." };
+    return { message: "Enter a valid mobile number." };
   }
 
   if (branch.length < 1 || branch.length > 80) {
-    return { message: "Enter a branch (up to 80 characters)." };
+    return { message: "Enter a valid branch." };
   }
 
   if (!/^\d+$/.test(semesterValue) || !Number.isSafeInteger(semester)) {
-    return { message: "Semester must be a whole number from 1 to 8." };
+    return { message: "Enter a valid semester." };
   }
 
-  if (semester > 8) {
-    return { message: "Semester cannot be more than 8." };
-  }
-
-  if (semester < 1) {
-    return { message: "Semester must be at least 1." };
+  if (semester < 1 || semester > 8) {
+    return { message: "Semester must be between 1 and 8." };
   }
 
   if (typeof password !== "string" || password.length < 8) {
@@ -92,23 +106,32 @@ export async function signUpAction(
   }
 
   const supabase = await createSupabaseServerClient();
+
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
-      data: { full_name: fullName, mobile_number: mobileNumber, branch, semester },
+      data: {
+        full_name: fullName,
+        mobile_number: mobileNumber,
+        branch,
+        semester,
+      },
     },
   });
 
   if (error) {
-    console.error("Student sign-up failed.", error);
-    return { message: "We couldn't create the account. Check your details or try signing in." };
+    console.error("Student signup error:", error.message);
+
+    return {
+      message: "Unable to create account. Please try again.",
+    };
   }
 
   if (!data.session) {
     return {
       message:
-        "Supabase did not start a session. Turn off email confirmation in Supabase Auth settings, then try again. If this email already has an account, sign in instead.",
+        "Account created, but email confirmation is required. Please check your email.",
     };
   }
 
@@ -118,11 +141,12 @@ export async function signUpAction(
 
 export async function signOutAction() {
   const supabase = await createSupabaseServerClient();
+
   const { error } = await supabase.auth.signOut();
 
   if (error) {
-    console.error("Student sign-out failed.", error);
-    throw new Error("Unable to sign out. Please try again.");
+    console.error("Sign-out error:", error.message);
+    throw new Error("Unable to sign out.");
   }
 
   revalidatePath("/", "layout");
